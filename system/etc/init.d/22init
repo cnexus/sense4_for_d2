@@ -1,0 +1,9 @@
+#!/system/bin/sh
+#created by -viperboy-
+
+#enable alogcat to read system logs
+pm grant org.jtb.alogcat android.permission.READ_LOGS
+
+#reset light sensor on boot
+#credit to FrikinImpossible
+echo 0x0a0f 0x140b6050 > /sys/devices/virtual/optical_sensors/proximity/ps_kadc

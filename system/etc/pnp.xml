@@ -1,0 +1,464 @@
+<!--
+	Copyright (C) 2012 HTC Corporation
+
+Revision:
+2012-09-28: <midas_chieh> Initial version of 8960 pnp.xml base on 8064 2012-09-28.
+2012-10-12: <midas_chieh> add thermal battery rule to limit charging current.
+2012-10-17: <midas_chieh> apply charging limitation for laputa, papago, kingway and navigation policy for google map and navigation.
+-->
+<pnpmgr>
+	<!-- Dependency area -->
+        <dependency type="lessOrEqual">
+                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</path>
+                <value>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</value>
+        </dependency>
+        <dependency type="greaterOrEqual">
+                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+                <value>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</value>
+        </dependency>
+        <dependency type="lessOrEqual">
+                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq</path>
+                <value>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</value>
+        </dependency>
+        <dependency type="greaterOrEqual">
+                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+                <value>/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq</value>
+        </dependency>
+        <dependency type="lessOrEqual">
+                <path>/sys/power/pnpmgr/hotplug/mp_min_cpus</path>
+                <value>/sys/power/pnpmgr/hotplug/mp_max_cpus</value>
+        </dependency>
+        <dependency type="greaterOrEqual">
+                <path>/sys/power/pnpmgr/hotplug/mp_max_cpus</path>
+                <value>/sys/power/pnpmgr/hotplug/mp_min_cpus</value>
+        </dependency>
+
+        <!-- Policy area -->
+	<policy type="Keep_Current"></policy>
+
+	<policy type="default">
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_min_cpus</path>
+			<value type="int">1</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_max_cpus</path>
+			<value type="int">2</value>
+		</assignment>
+		<!-- 384mhz/1512mhz is cpu min/max freq for 8960 -->
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</path>
+			<value type="int">384000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq</path>
+			<value type="int">384000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+			<value type="int">1512000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+			<value type="int">1512000</value>
+		</assignment>
+		<!-- MP-Decision default parameters -->
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_nw</path>
+			<value type="string">0 1.99</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_ns</path>
+			<value type="string">0 1.1</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_tw</path>
+			<value type="string">0 140</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_ts</path>
+			<value type="string">0 190</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_decision_ms</path>
+			<value type="int">50</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpufreq/ondemand/up_threshold</path>
+			<value type="int">90</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/adaptive_policy/enabled</path>
+			<value type="int">1</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</path>
+			<value type="int">400000000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/pwrscale/trustzone/governor</path>
+			<value type="string">ondemand</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/module/pm8921_charger_htc/parameters/thermal_mitigation</path>
+			<value type="int">0</value>
+		</assignment>
+	</policy>
+
+	<policy type="performance">
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_min_cpus</path>
+			<value type="int">2</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</path>
+			<value type="int">1512000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq</path>
+			<value type="int">1512000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/pnpmgr/hotplug/mp_decision_ms</path>
+			<value type="int">500</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/power/adaptive_policy/enabled</path>
+			<value type="int">0</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</path>
+			<value type="int">400000000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/pwrscale/trustzone/governor</path>
+			<value type="string">performance</value>
+		</assignment>
+	</policy>
+
+	<policy type="navigation">
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+			<value type="int">918000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+			<value type="int">918000</value>
+		</assignment>
+		<assignment type="value">
+			<path>/sys/module/pm8921_charger_htc/parameters/thermal_mitigation</path>
+			<value type="int">3</value>
+		</assignment>
+	</policy>
+
+        <!-- Rule area -->
+	<rule type="thermal_final">
+                <path>/sys/power/pnpmgr/thermal/thermal_final</path>
+		<!-- Assume this rule is top priority -->
+                <condition type="less">
+                        <value type="fint">/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq</value>
+                        <assignment type="attr" relation="less">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+                                <value type="int">/sys/power/pnpmgr/thermal/thermal_final</value>
+                        </assignment>
+                        <assignment type="attr" relation="less">
+                                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+                                <value type="int">/sys/power/pnpmgr/thermal/thermal_final</value>
+                        </assignment>
+			<!-- override launch event -->
+			<assignment type="value">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</path>
+                                <value type="int">384000</value>
+                        </assignment>
+                        <assignment type="value">
+                                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq</path>
+                                <value type="int">384000</value>
+                        </assignment>
+			<assignment type="value" relation="less">
+                                <path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</path>
+                                <value type="int">200000000</value>
+                        </assignment>
+		</condition>
+        </rule>
+
+	 <rule type="powersave">
+                <path>/sys/power/powersave</path>
+                <condition type="equality">
+                        <value type="int">1</value>
+                        <assignment type="value" relation="less">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+                                <value type="int">1134000</value>
+                        </assignment>
+                        <assignment type="value" relation="less">
+                                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+                                <value type="int">1134000</value>
+                        </assignment>
+                </condition>
+        </rule>
+
+	<rule type="Screen Off">
+		<path>/sys/power/wait_for_fb_status</path>
+		<condition type="equality">
+			<value type="string">off</value>
+			<!-- Not limit cpu freq cause it will override perflock -->
+			<assignment type="value">
+				<path>/sys/devices/system/cpu/cpufreq/ondemand/up_threshold</path>
+				<value type="int">98</value>
+			</assignment>
+			<assignment type="value">
+				<path>/sys/power/pnpmgr/hotplug/mp_max_cpus</path>
+				<value type="int">1</value>
+			</assignment>
+			<assignment type="value">
+				<path>/sys/power/adaptive_policy/enabled</path>
+				<value type="int">1</value>
+			</assignment>
+		</condition>
+	</rule>
+
+	<rule type="benchmarks">
+		<path>/sys/power/pnpmgr/apps/activity_trigger</path>
+		<condition type="greaterOrEqual">
+			<value type="string">com.antutu.ABenchMark</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">eu.chainfire.cfbench</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">com.tactel.electopia</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.smartbench</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.aurorasoftworks.quadrant.ui</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">com.quicinc.vellamo</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">com.georgie.pi</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">com.greenecomputing.linpack</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.android.cm</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.glbenchmark.glbenchmark</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">se.nena.nenamark</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.rightware.tdmm</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.threed.jpct.bench</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">gr.androiddev.BenchmarkPi</value>
+			<policy>performance</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">com.qualcomm.qx.neocore</value>
+			<policy>performance</policy>
+		</condition>
+	</rule>
+
+	<rule type="launch">
+                <path type="realtime">/sys/power/launch_event</path>
+                <condition type="equality">
+                        <value type="int">1</value>
+                        <assignment type="value" relation="greater">
+                                <path>/sys/power/pnpmgr/hotplug/mp_min_cpus</path>
+                                <value type="int">2</value>
+                        </assignment>
+                        <assignment type="value">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+                                <value type="int">1512000</value>
+                        </assignment>
+                        <assignment type="value">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</path>
+                                <value type="int">1512000</value>
+                        </assignment>
+                </condition>
+        </rule>
+
+	<rule type="thermal_c0">
+		<!-- Critical Shutdown action is handled by thermald if temp > 120 degC -->
+		<path>/sys/power/pnpmgr/thermal/thermal_c0</path>
+		<condition type="lessOrEqual">
+			<value type="fint">/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</value>
+			<assignment type="attr" relation="less">
+				<path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_c0</value>
+			</assignment>
+		</condition>
+		<condition type="greater">
+			<value type="fint">/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</value>
+			<assignment type="attr" relation="less">
+				<path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_c0</value>
+			</assignment>
+		</condition>
+	</rule>
+
+	<rule type="thermal_c1">
+		<path>/sys/power/pnpmgr/thermal/thermal_c1</path>
+		<condition type="lessOrEqual">
+			<value type="fint">/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</value>
+			<assignment type="attr" relation="less">
+				<path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_c1</value>
+			</assignment>
+		</condition>
+		<condition type="greater">
+			<value type="fint">/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</value>
+			<assignment type="attr"  relation="less">
+				<path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_c1</value>
+			</assignment>
+		</condition>
+	</rule>
+
+	<rule type="thermal_g0">
+		<path>/sys/power/pnpmgr/thermal/thermal_g0</path>
+		<condition type="lessOrEqual">
+			<value type="fint">/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</value>
+			<assignment type="attr">
+				<path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_g0</value>
+			</assignment>
+		</condition>
+		<condition type="greater">
+			<value type="fint">/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</value>
+			<assignment type="attr" relation="less">
+				<path>/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/max_gpuclk</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_g0</value>
+			</assignment>
+		</condition>
+	</rule>
+
+	<rule type="thermal_battery">
+		<path>/sys/power/pnpmgr/thermal/thermal_batt</path>
+		<condition type="greater">
+			<value type="int">0</value>
+			<assignment type="attr" relation="greater">
+				<path>/sys/module/pm8921_charger_htc/parameters/thermal_mitigation</path>
+				<value type="int">/sys/power/pnpmgr/thermal/thermal_batt</value>
+			</assignment>
+		</condition>
+	</rule>
+
+	<rule type="Perf - Ceiling freq">
+                <path>/sys/power/pnpmgr/cpufreq/perflock_scaling_max</path>
+                <condition type="greater">
+                        <value type="int">0</value>
+                        <assignment type="attr" relation="less">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq</path>
+                                <value type="int">/sys/power/pnpmgr/cpufreq/perflock_scaling_max</value>
+                        </assignment>
+                        <assignment type="attr" relation="less">
+                                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq</path>
+                                <value type="int">/sys/power/pnpmgr/cpufreq/perflock_scaling_max</value>
+                        </assignment>
+                </condition>
+        </rule>
+
+        <rule type="Perf - Floor freq">
+                <path>/sys/power/pnpmgr/cpufreq/perflock_scaling_min</path>
+                <condition type="greater">
+                        <value type="int">0</value>
+                        <assignment type="attr" relation="greater">
+                                <path>/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq</path>
+                                <value type="int">/sys/power/pnpmgr/cpufreq/perflock_scaling_min</value>
+                        </assignment>
+                        <assignment type="attr" relation="greater">
+                                <path>/sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq</path>
+                                <value type="int">/sys/power/pnpmgr/cpufreq/perflock_scaling_min</value>
+                        </assignment>
+                        <assignment type="value">
+                                <path>/sys/power/adaptive_policy/enabled</path>
+                                <value type="int">0</value>
+                        </assignment>
+                </condition>
+        </rule>
+
+	<rule type="Perf - max cores">
+                <path>/sys/power/cpunum_ceiling</path>
+                <condition type="greater">
+                        <value type="int">0</value>
+                        <assignment type="attr" relation="less">
+                                <path>/sys/power/pnpmgr/hotplug/mp_max_cpus</path>
+                                <value type="int">/sys/power/cpunum_ceiling</value>
+                        </assignment>
+                </condition>
+        </rule>
+
+        <rule type="Perf - min cores">
+                <path>/sys/power/cpunum_floor</path>
+                <condition type="greater">
+                        <value type="int">0</value>
+                        <assignment type="attr" relation="greater">
+                                <path>/sys/power/pnpmgr/hotplug/mp_min_cpus</path>
+                                <value type="int">/sys/power/cpunum_floor</value>
+                        </assignment>
+                </condition>
+        </rule>
+
+	<rule type="App trigger">
+		<path>/sys/power/pnpmgr/apps/activity_trigger</path>
+		<condition type="equality">
+			<value type="string">com.google.android.apps.maps</value>
+			<policy>navigation</policy>
+		</condition>
+		<condition type="equality">
+			<value type="string">com.htc.laputa</value>
+			<assignment type="value">
+				<path>/sys/module/pm8921_charger_htc/parameters/thermal_mitigation</path>
+				<value type="int">3</value>
+			</assignment>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.mactiontech.M</value>
+			<assignment type="value">
+				<path>/sys/module/pm8921_charger_htc/parameters/thermal_mitigation</path>
+				<value type="int">3</value>
+			</assignment>
+		</condition>
+		<condition type="greaterOrEqual">
+			<value type="string">com.kingwaytek</value>
+			<assignment type="value">
+				<path>/sys/module/pm8921_charger_htc/parameters/thermal_mitigation</path>
+				<value type="int">3</value>
+			</assignment>
+		</condition>
+	</rule>
+
+
+	<!-- A Default rule if activity_trigger doesn't hit -->
+	<!-- CPU ONLINE will notify PnP to write cache value again. -->
+	<!-- This rule MUST set as lowest priority rule to apply the default policy -->
+	<rule type="Default">
+                <path type="always">/sys/power/pnpmgr/hotplug/cpu_hotplug</path>
+                <condition type="greater">
+                        <value type="int">0</value>
+                        <policy>default</policy>
+                </condition>
+        </rule>
+</pnpmgr>

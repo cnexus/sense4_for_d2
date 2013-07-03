@@ -1,0 +1,6 @@
+TaskID : 299302
+Project : JEWEL_CL_JB_45_S
+SKU : Sprint WWE[651]
+ROM Ver : 3.15.651.16
+Customization Id : 460414
+RCMS Id : 83
